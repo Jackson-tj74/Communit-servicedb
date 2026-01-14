@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/Jackson-tj74/Communit-servicedb#readme",
   "dependencies": {
+    "body-parse": "^0.1.0",
+    "body-parser": "^2.2.2",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "mongoose": "^9.1.3",
