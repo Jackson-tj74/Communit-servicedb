@@ -38,7 +38,7 @@ class Controller {
                 return res.status(404).json({ message: "Invalid password" })
             } else {
 
-                const token = jwt.sign({ user: user }, process.env.SCRET_KEY, { expiresIn: "1d" })
+                const token = jwt.sign({ user: user }, process.env.SECRET_KEY, { expiresIn: "1d" })
                 return res.status(200).json({ message: "login succefully", token })
 
             }
@@ -55,7 +55,8 @@ class Controller {
         }
 
     }
-
+     
+    
     static deleteAllUsers = async(req,res)=>{
         
         
@@ -83,7 +84,17 @@ static deleteOneUser = async (req, res) => {
     console.error(error);
     return res.status(500).json({ message: "Failed to delete user" });
   }
-};
+}
+static updateUser =async (req,res)=>{
+    const id = req.params.id
+   const user = await User.findByIdAndUpdate(id,req.body,{new:true})
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }else{
+
+    return res.status(200).json({ message: "User updated successfully" ,user});
+    }
+}
 }
 
 export default Controller
