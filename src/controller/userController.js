@@ -86,6 +86,7 @@ static deleteOneUser = async (req, res) => {
   }
 }
 static updateUser =async (req,res)=>{
+    try{
     const id = req.params.id
    const user = await User.findByIdAndUpdate(id,req.body,{new:true})
     if (!user) {
@@ -94,6 +95,10 @@ static updateUser =async (req,res)=>{
 
     return res.status(200).json({ message: "User updated successfully" ,user});
     }
+}catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Failed to update user" });
+  }
 }
 }
 
