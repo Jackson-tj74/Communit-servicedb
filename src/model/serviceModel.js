@@ -28,16 +28,19 @@ const ServiceSchema = mongoose.Schema({
 
     }
 })
-ServiceSchema.pre(/^find/,function(next){
-    this.populate({
-        path:"categorys",select:"categoryName"
-    }).populate({
-        path:"provider",select:"names email"
-    })
-    next()
 
+ServiceSchema.pre(/^find/, function () {
+  this.populate(
+    { path: "categorys", select: "categoryName" }
+  ).populate(
+    { path: "provider", select: "names email" }
+    
+    
+  );
+  
+  
+});
 
-})
 
 const Service = mongoose.model("Service",ServiceSchema)
 export default Service
