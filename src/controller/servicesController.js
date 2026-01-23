@@ -1,60 +1,51 @@
 
 import Service from "../model/serviceModel.js";
-import User from "../model/userModel.js";
+
 import Category from "../model/category.js";
 
 class ServiceController {
-    /*static createService = async (req, res) => {
-
-        const categoryId = req.body.categorys
-        const category = await Category.findById({ _id: categoryId })
-        if (!category) {
-            return res.status(404).json({ message: 'Category not found' })
-        } else {
-            const userId = req.user._id
-            if (!userId) {
-                return res.status(404).json({ message: "user not found" })
-            } else {
-                const service = await Service.create(req.body)
-                if (!service) {
-                    return res.status(404).json({ message: "service not create" })
-                } else {
-                    return res.status(201).json({ message: "service successfully create", service })
-                }
-            }
-        }
-
-    }*/
-   static createService = async (req, res) => {
+    
+    static createService = async (req, res) => {
     try {
-        const { categoryId } = req.body;
-
-        if (!categoryId) {
-            return res.status(400).json({ message: "categoryId is required" });
-        }
-
-        const category = await Category.findById(categoryId);
-        if (!category) {
-            return res.status(404).json({ message: "Category not found" });
-        }
-
-        const service = await Service.create({
-            ...req.body,
-            user: req.user._id,
-            category: categoryId
-        });
-
-        res.status(201).json({
-            message: "Service created successfully",
-            service
-        });
-
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
+    const { title, description, categorys, price } = req.body
 
    
+    const category = await Category.findById(categorys)
+    if (!category) {
+      return res.status(404).json({ message: "Category not found" })
+    }
+
+    
+    const userId = req.user?._id;
+    if (!userId) {
+      return res.status(404).json({ message: "User not found" })
+    }
+
+    
+    let service = await Service.create({
+      title,
+      description,
+      categorys,
+      price,
+      provider: userId, 
+    });
+
+    
+    service = await service.populate([
+      { path: "categorys", select: "categoryName" },
+      { path: "provider", select: "names email" },
+    ]);
+
+    return res.status(201).json({
+      message: "Service successfully created",
+      service,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error.message })
+  }
+};
+
+    
 
     static getAllServices = async (req, res) => {
         const services = await Service.find()
@@ -109,7 +100,7 @@ class ServiceController {
         if(!service){
           return res.status(404).json({message:"service are not found"})
         }else{
-          return res.status(200).json({message:"service founded successfully"})
+          return res.status(200).json({message:"service founded successfully",service})
         }
       }catch(error){
         return res.status(500).json({message:"service are not deleted"})
