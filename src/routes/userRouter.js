@@ -7,7 +7,7 @@ import { VerifyAcess } from "../midleware/verifyAcess.js";
 const router = express.Router();
 router.post("/",EmailExist,Controller.signup)
 router.post("/login",Controller.login)
-router.get("/users",VerifyAcess('admin'),Controller.getAllUsers)
+router.get("/users",EmailExist,Controller.getAllUsers)
 
 router.delete("/deleteUsers",Controller.deleteAllUsers)
 router.delete("/delete/:id",Controller.deleteOneUser)
