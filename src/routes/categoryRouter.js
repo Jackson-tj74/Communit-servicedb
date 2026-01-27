@@ -5,7 +5,7 @@ import { CategoryExist } from "../midleware/validation.js"
 
 const router = express.Router()
 router.post("/create",CategoryExist,CategoryController.createCategory)
-router.get("/categories",CategoryController.getAllCategories)
+router.get("/getAllCategories",CategoryController.getAllCategories)
 
 router.delete("/deleteCategory/:id",CategoryController.deleteOneCategory)
 router.delete("/deleteAllCategories",CategoryController.deleteAllCategories)
