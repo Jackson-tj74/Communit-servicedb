@@ -2,7 +2,8 @@
 import Service from "../model/serviceModel.js";
 
 import Category from "../model/category.js";
-
+import User from "../model/userModel.js";
+import { sendEmail } from "../services/sendEmail.js";
 class ServiceController {
     
     static createService = async (req, res) => {
@@ -35,6 +36,20 @@ class ServiceController {
       { path: "categorys", select: "categoryName" },
       { path: "provider", select: "names email" },
     ]);
+   const users = await User.find();
+if (!users) {
+  return res.status(404).json({ status: 404, message: "Users not found" });
+}
+
+for (const user of users) {
+  await sendEmail({
+    receiverEmail: user.email, 
+    title: req.body.title,
+    serviceDescription: req.body.description,
+  });
+}
+
+  
 
     return res.status(201).json({
       message: "Service successfully created",

@@ -82,7 +82,6 @@ export const signupSchema = Joi.object({
 }),
   role: Joi.string()
     .valid("admin", "client", "provider")
-    .required()
     .messages({
       "string.base": "Role must be a string",
       "any.only": "Role must be admin, client, or provider",

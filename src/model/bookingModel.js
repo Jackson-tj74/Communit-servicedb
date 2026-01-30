@@ -23,8 +23,12 @@ const bookingSchema= new mongoose.Schema({
         type:String,
         required:[true,"please specify the hour you want service"]
 
-
+   
     },
+     servicePrice: { type: Number, required: true },
+    customerName: { type: String, required: true },
+    customerEmail: { type: String, required: true },
+    contact: { type: String, required: true },
     statuses:{
         type:String,
         enum:['pending','accepted','completed','canceled'],

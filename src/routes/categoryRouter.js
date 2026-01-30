@@ -8,7 +8,7 @@ import { routeBodyValidation } from "../midleware/requestMidleware.js"
 
 const router = express.Router()
 router.post("/create",routeBodyValidation(createCategory),VerifyAcess(['provider','admin']),CategoryExist,CategoryController.createCategory)
-router.get("/getAllCategories",VerifyAcess(['provider','admin']),CategoryController.getAllCategories)
+router.get("/getAllCategories",CategoryController.getAllCategories)
 
 router.delete("/deleteCategory/:id",VerifyAcess(['provider','admin']),CategoryController.deleteOneCategory)
 router.delete("/deleteAllCategories",VerifyAcess(['provider','admin']),CategoryController.deleteAllCategories)
