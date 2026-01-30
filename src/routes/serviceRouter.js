@@ -7,7 +7,7 @@ import { ServiceExist } from "../midleware/validation.js"
 
 
 const router = express.Router()
-router.post("/create",VerifyAcess(["provider",'admin']),ServiceExist,ServiceController.createService)
+router.post("/create",VerifyAcess('provider'),ServiceExist,ServiceController.createService)
 router.get("/getAllServices",ServiceController.getAllServices)
 router.delete("/deleteAllServices",VerifyAcess(["provider",'admin']),ServiceController.deleteAllServices)
 router.delete("/deleteOneService/:id",VerifyAcess(["provider",'admin']),ServiceController.deleteOneService)

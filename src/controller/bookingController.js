@@ -20,9 +20,15 @@ class BookingController{
                 date,
                 time,
                 status,
+                customerName: user.name,
+                customerEmail: user.email,
                 notes,
                 clientId:userId
             });
+
+  
+    
+
             
             booking= await booking.populate([
             {path:"clientId",select:"names email"},
