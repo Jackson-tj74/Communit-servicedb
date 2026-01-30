@@ -4,14 +4,16 @@ import Controller from "../controller/userController.js"
 
 import { VerifyAcess } from "../midleware/verifyAcess.js";
 import { EmailExist } from "../midleware/validation.js";
+import { routeBodyValidation } from "../midleware/requestMidleware.js";
+import { signupSchema, signSchema } from "../validation/validation.js";
 
 
 const router = express.Router();
-router.post("/",EmailExist,Controller.signup)
-router.post("/login",Controller.login)
-router.get("/users",EmailExist,Controller.getAllUsers)
+router.post("/create",EmailExist,routeBodyValidation(signupSchema),Controller.signup)
+router.post("/login",routeBodyValidation(signSchema),Controller.login)
+router.get("/users",VerifyAcess(['admin']),EmailExist,Controller.getAllUsers)
 
-router.delete("/deleteUsers",Controller.deleteAllUsers)
-router.delete("/delete/:id",Controller.deleteOneUser)
-router.patch("/upadate/:id",Controller.updateUser)
-export default router;
+router.delete("/deleteUsers",VerifyAcess(['admin']),Controller.deleteAllUsers)
+router.delete("/delete/:id",VerifyAcess(['admin']),Controller.deleteOneUser)
+router.patch("/upadate/:id",VerifyAcess(['admin']),Controller.updateUser)
+export default router
