@@ -13,6 +13,7 @@ app.use(bodyParser.json())
 app.use("/api/v1",router)
 
 
+
 const port = process.env.PORT
 const db = process.env.DATABASE
 
@@ -29,3 +30,6 @@ mongoose.connect(db).then(()=>{
         console.log(`Error is ${error}`)
     })
 
+app.use( (req, res) => {
+  res.status(200).json({message:"Well come to our website"});
+});
