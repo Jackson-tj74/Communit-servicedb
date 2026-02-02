@@ -24,7 +24,7 @@ export const signSchema = Joi.object({
     'string.base':'password should be a type text',
     'string.empty':'Password can not be empty',
     'string.min':'Password should have miinimum length of 8',
-    'string.pattern':"Password should cotain atleast one upperCase ,one lower case ,one number",
+    'string.pattern.base':"Password should cotain atleast one upperCase ,one lower case ,one number",
     'any.required':"Password is required"
 }),
 role: Joi.string()

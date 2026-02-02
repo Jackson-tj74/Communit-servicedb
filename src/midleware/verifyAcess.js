@@ -2,7 +2,8 @@
 
 
 import User from "../model/userModel.js"
-import { decodingToken } from "../utils/jwtUtils.js"
+import { DecodToken } from "../utils/jwtUtils.js"
+
 
 export  function  VerifyAcess  (passRoles){
     return async(req,res,next)=>{
@@ -14,7 +15,7 @@ export  function  VerifyAcess  (passRoles){
         }else{
             try{
 
-                const decodedToken = decodingToken(token)
+                const decodedToken = DecodToken(token)
                 const user = await User.findById(decodedToken?.id)
                 if(!user){
                     return res.status(401).json({message:"Unauthenticated"})
