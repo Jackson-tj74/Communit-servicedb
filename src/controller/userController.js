@@ -4,6 +4,7 @@ import { generateToken } from "../utils/jwtUtils.js"
 import { sendEmail } from "../services/sendEmail.js"
 import { verifyAccountTemplate } from "../utils/verifyEmailTamplent.js"
 import { DecodToken } from "../utils/jwtUtils.js"
+import { resetPasswordTokenTemplate } from "../utils/resetPasswordTamlent.js"
 
 class Controller {
          
@@ -85,6 +86,44 @@ static verifyEmailAccount = async (req, res) => {
         }
 
     }
+
+    static forgetpassword = async(req,res)=>{
+      const {email} = req.body
+      try{
+        const user = await User.findOne({email})
+       if(!user){
+        return res.status(404).json({status:404,message:"User not found"})
+       }
+       const token = generateToken(user?.id)
+       user.resetPasswordToken = token
+       await user.save()
+       
+       const resetLink = `${process.env.CLIENT_URL}/reset-password/${token}`
+       await sendEmail(resetPasswordTokenTemplate(email,resetLink,"Password Reset Request"))
+       return res.status(200).json({status:200,message:"Password reset link sent to your email"})
+
+    }catch(error){
+      return res.status(500).json({status:500,message:error.message})
+    }
+  }
+
+  static resetPassword = async (req,res)=>{
+   const {newPassword} = req.body
+   const token = req.params.token
+
+   const decodedToken = DecodToken(token)
+
+   const user = await User.findById(decodedToken?.id)
+     if(!user){
+      return res.status(404).json({status:404,message:"user not found"})
+   }
+   user.password = bcrypt.hashSync(newPassword,10)
+   user.resetPasswordToken=undefined
+   await user.save()
+   return res.status(201).json({status:201,message:"Password already changed"})
+}
+
+
     static getAllUsers = async(req,res) => {
         const users = await User.find()
         if(!users){
