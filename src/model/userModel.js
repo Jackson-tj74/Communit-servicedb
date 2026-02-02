@@ -1,5 +1,6 @@
 
 import mongoose from "mongoose"
+import { verify } from "node:crypto"
 
 const userSchema = new mongoose.Schema({
     names:{
@@ -24,6 +25,13 @@ const userSchema = new mongoose.Schema({
         enum:['client','provider','admin'],
         default:'client'
         
+    },
+    isVerified:{
+       type:Boolean,
+       default:false
+    },
+    verifyToken:{
+        type:String
     },
 createAt:{
     type:Date,

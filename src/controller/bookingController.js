@@ -83,23 +83,23 @@ class BookingController{
                 }
                 }
         
-        //         static updateBooking =async (req,res)=>{
-        //           try{
-        //           const id = req.params.id
-        //           const booking= await BookingService.findByIdAndUpdate(id)
-        //           if(!booking){
-        //              return res.status(404).json({message:"Bookings  not found"})
+                static updateBooking =async (req,res)=>{
+                  try{
+                  const id = req.params.id
+                  const booking= await BookingService.findByIdAndUpdate(id)
+                  if(!booking){
+                     return res.status(404).json({message:"Bookings  not found"})
         
-        //           }else{
-        //              return res.status(200).json({message:"Bookings  updated successfully",booking})
-        //           }
-        //         }catch (error) {
-        //         console.error(error);
-        //        return res.status(500).json({ message: "Failed to update user"});
+                  }else{
+                     return res.status(200).json({message:"Bookings  updated successfully",booking})
+                  }
+                }catch (error) {
+                console.error(error);
+               return res.status(500).json({ message: "Failed to update user"});
           
         
-        //         }
-        //   }
+                }
+          }
         
           static getOneBookig =async(req,res)=>{
             try{
