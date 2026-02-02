@@ -74,8 +74,9 @@ static verifyEmailAccount = async (req, res) => {
             if (!comparePassword) {
                 return res.status(404).json({ message: "Invalid password or password" })
             } else {
-
-                
+               if(!user.isVerified){
+                return res.status(400).json({ message: "Please verify your email first" })
+               }
                 const token = generateToken(user?._id)
                 return res.status(200).json({ message: "login succefully" ,token})
 
