@@ -18,4 +18,6 @@ router.delete("/deleteUsers",VerifyAcess(['admin']),Controller.deleteAllUsers)
 router.delete("/delete/:id",VerifyAcess(['admin']),Controller.deleteOneUser)
 router.patch("/upadate/:id",VerifyAcess(['admin']),Controller.updateUser)
 router.get("/verify/:verifyToken",Controller.verifyEmailAccount)
+router.post("/request-reset-password",Controller.forgetpassword)
+router.post("/reset-password/:token",Controller.resetPassword)
 export default router
