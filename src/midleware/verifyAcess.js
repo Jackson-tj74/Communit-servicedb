@@ -21,7 +21,7 @@ export  function  VerifyAcess  (passRoles){
                     return res.status(401).json({message:"Unauthenticated"})
                 }else{
                     if(!passRoles.includes(user.role)){
-                        return res.status(401).json({status:403,message:"Unthorized"})
+                        return res.status(401).json({status:403,message:"Unauthorized"})
                 }else{
                     req.user=user
                     return next()
